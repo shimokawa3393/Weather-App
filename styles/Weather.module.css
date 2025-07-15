@@ -1,0 +1,69 @@
+/* styles/Weather.module.css */
+
+/* ====== Weatherページの全体レイアウト ====== */
+.weatherHome {
+  max-width: 400px;
+  margin: 2rem auto;
+  text-align: center;
+  letter-spacing: 0.8px;
+  padding: 0 1rem;
+}
+
+/* ====== 入力欄とボタン：スマホ対応（縦並び） ====== */
+.input,
+.button {
+  width: 100%;
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+/* ====== 入力欄デザイン ====== */
+.input {
+  padding: 0.6rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+}
+
+/* ====== ボタンデザイン ====== */
+.button {
+  padding: 0.6rem 1.2rem;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+/* ====== エラーメッセージ ====== */
+.error {
+  color: red;
+  margin-top: 0.5rem;
+}
+
+/* ====== 結果表示エリア ====== */
+.result {
+  background-color: #f0f8ff;
+  padding: 1.5rem;
+  margin-top: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  box-sizing: border-box;
+}

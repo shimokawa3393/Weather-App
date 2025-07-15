@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Weather App
 
-## Getting Started
+日本語で入力された都市名を英語に翻訳し、OpenWeather APIから天気情報を取得・表示するアプリケーションです。  
+Next.js の App Router 構成をベースに、OpenAI API と外部APIを組み合わせた構成になっています。
 
-First, run the development server:
+### 概要
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+このアプリはポートフォリオ用途として以下の点を目的に開発されました。
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- APIの責務分離（翻訳処理と天気取得処理）
+- OpenAI APIの実用的な活用例
+- App Router構成による Next.js のバックエンド統合の実践
+- シンプルかつ拡張しやすいUI設計（TypeScript + CSS Modules）
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 使用技術
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| 区分         | 使用技術                                |
+|--------------|-----------------------------------------|
+| フロント     | React / Next.js 13+（App Router） / TypeScript |
+| スタイリング | CSS Modules / Tailwind CSS（導入済み） |
+| バックエンド | Next.js API Routes（/api/translate, /api/weather） |
+| 外部API      | OpenAI API（Chat Completion） / OpenWeather API |
+| デプロイ     | Vercel                                  |
 
-## Learn More
+### 主な機能
 
-To learn more about Next.js, take a look at the following resources:
+- 都市名の日本語入力 → ChatGPTで英語に翻訳
+- OpenWeather APIでリアルタイム天気情報を取得
+- 入力エラー・通信エラーへの適切なハンドリング
+- スマートフォンにも対応したレスポンシブUI
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 使い方
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. テキスト入力欄に日本語の都市名（例：「東京」）を入力
+2. 「検索」ボタンを押すか Enter を押下
+3. 翻訳された都市名に基づいて天気情報が表示される
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
