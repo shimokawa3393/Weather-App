@@ -9,10 +9,19 @@ interface WeatherData {
   name: string;
   main: {
     temp: number;
+    temp_min: number;
+    temp_max: number;
     humidity: number;
   };
   wind: {
     speed: number;
+  };
+  weather: Array<{
+    icon: string;
+    description: string;
+  }>;
+  rain?: {
+    "1h": number;
   };
 }
 
@@ -35,12 +44,15 @@ export default function WeatherApp() {
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+  const [showIllustration, setShowIllustration] = useState<boolean>(true);
+
 
   /* 検索ボタンを押した時の処理 */
   const handleSearch = async () => {
     setLoading(true);
     setError(null);
     setWeather(null);
+    setShowIllustration(false);
 
     try {
       // 翻訳APIを呼び出し
@@ -87,36 +99,81 @@ export default function WeatherApp() {
     <div className={styles.weatherHome}>
       <h1>Weather App</h1>
 
-      <input
-        type="text"
-        className={styles.input}
-        value={inputCity}
-        onChange={(e) => setInputCity(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" && !e.nativeEvent.isComposing) {
-            handleSearch();
-          }
-        }}
-        placeholder="都市名を入力してください"
-      />
+      <div className={styles.inputContainer}>
+        <input
+          type="text"
+          className={styles.input}
+          value={inputCity}
+          onChange={(e) => setInputCity(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.nativeEvent.isComposing) {
+              handleSearch();
+            }
+          }}
+          placeholder="都市名を入力してください"
+        />
+        <button className={styles.button} onClick={handleSearch}>
+          検索
+        </button>
+      </div>
 
-      <button className={styles.button} onClick={handleSearch}>
-        検索
-      </button>
+      {/* 天気取得前のイラスト系 */}
+      {showIllustration && (
+        <>
+          <div className={styles.iconWrapper}>
+            <img src="/assets/sun.png" alt="sun" className={styles.icon} />
+            <div className={styles.balloon}>都市名を入力してみよう！</div>
+          </div>
+          <img src="/assets/smile_cloud.png" alt="cloud" className={styles.cloud} />
+        </>
+      )}
 
+      {/* 天気取得中のローディング */}
       {loading && <p>お天気を取得中...</p>}
 
-      {error && <p className={styles.error}>{error}</p>}
-
-      {weather && (
-        <div className={styles.result}>
-          <h2>{weather.name} の天気</h2>
-          <p>気温： {weather.main.temp} ℃</p>
-          <p>湿度： {weather.main.humidity} %</p>
-          <p>風速： {weather.wind.speed} m/s</p>
-        </div>
+      {/* エラー表示 */}
+      {error && (
+        <>
+          <div className={styles.iconWrapper}>
+            <img src="/assets/moon.png" alt="sun" className={styles.icon} />
+            <div className={styles.balloon}>都市が見つかりませんでした...</div>
+          </div>
+          <img src="/assets/sad_cloud.png" alt="cloud" className={styles.cloud} />
+        </>
       )}
-    </div>
+
+      {/* 天気取得後の結果表示 */}
+      {
+        weather && (
+          <div className={styles.result}  >
+            <h2>{weather.name}</h2>
+            <div className={styles.mainInfo}>
+              <div className={styles.mainIcon}>
+                <img
+                  src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
+                  alt="天気アイコン"
+                  className={styles.weatherIcon}
+                />
+                <span className={styles.weatherDescription}>{weather.weather[0].description}</span>
+              </div>
+              <div className={styles.mainTemp}>
+                <span className={styles.temp}>{Math.round(weather.main.temp)}℃</span>
+                <div className={styles.tempUnit}>
+                  <span className={styles.tempMax}>{Math.round(weather.main.temp_max)}℃</span>
+                  <span>/</span>
+                  <span className={styles.tempMin}>{Math.round(weather.main.temp_min)}℃</span>
+                </div>
+              </div>
+            </div>
+            <div className={styles.subInfo}>
+              <p>湿度：{weather.main.humidity}%</p>
+              <p>風：{Math.round(weather.wind.speed)} m/s</p>
+              <p>降水量：{weather.rain ? Math.round(weather.rain["1h"]) : "ー"} mm</p>
+            </div>
+          </div>
+        )
+      }
+    </div >
 
   );
 }

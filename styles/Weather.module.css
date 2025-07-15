@@ -2,43 +2,50 @@
 
 /* ====== Weatherページの全体レイアウト ====== */
 .weatherHome {
-  max-width: 400px;
-  margin: 2rem auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem 1rem;
+  font-family: "Noto Sans JP", sans-serif;
   text-align: center;
-  letter-spacing: 0.8px;
-  padding: 0 1rem;
+  background-color: #ecfdff;
+  color: #171717;
 }
 
-/* ====== 入力欄とボタン：スマホ対応（縦並び） ====== */
+/* ====== タイトル ====== */
+.weatherHome h1 {
+  font-size: 2.8rem;
+  color: #003366;
+  margin-bottom: 2rem;
+}
+
+/* ====== 入力欄とボタン（横並びにする） ====== */
 .input,
 .button {
-  width: 100%;
-  margin: 0.5rem 0;
-  font-size: 1rem;
+  font-size: 1.2rem;
+  height: 48px;
+  border-radius: 12px;
   box-sizing: border-box;
 }
 
 /* ====== 入力欄デザイン ====== */
 .input {
-  padding: 0.6rem 1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  padding: 0 1rem;
+  border: 2px solid #cecece;
   outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  width: 300px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.input:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
-}
 
 /* ====== ボタンデザイン ====== */
 .button {
-  padding: 0.6rem 1.2rem;
   background-color: #007bff;
   color: #fff;
   border: none;
-  border-radius: 8px;
+  padding: 0 20px;
+  margin-left: 0.8rem;
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
@@ -47,23 +54,135 @@
   background-color: #0056b3;
 }
 
+
+/* ====== 入力コンテナ（横並びレイアウト） ====== */
+.inputContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+
 /* ====== エラーメッセージ ====== */
 .error {
   color: red;
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+
+/* ====== フキダシ ====== */
+.balloon {
+  position: relative;
+  background: #ffffff;
+  border: 2px solid #003366;
+  border-radius: 20px;
+  padding: 1rem;
+  font-size: 1.1rem;
+  color: #003366;
+  max-width: 280px;
+  margin-top: 1rem;
+  margin-left: 1rem;
+}
+
+.balloon::after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 35%;
+  border: 10px solid transparent;
+  border-top: 10px solid #003366;
+}
+
+
+/* ====== アイコン・イラスト系 ====== */
+.iconWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  margin-left: 3rem;
+}
+
+.icon {
+  width: 120px;
+  height: 120px;
+}
+
+.cloud {
+  width: 300px;
   margin-top: 0.5rem;
 }
 
 /* ====== 結果表示エリア ====== */
 .result {
-  background-color: #f0f8ff;
+  background-color: #ffffff;
   padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+  max-width: 80%;
+  width: 100%;
   margin-top: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-  max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
-  font-size: 0.95rem;
-  line-height: 1.6;
-  box-sizing: border-box;
+  font-size: 1.1rem;
+  color: #003366;
+}
+
+.result h2 {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  margin-bottom: 1rem;
+}
+
+.mainInfo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.mainIcon {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.weatherIcon {
+  width: clamp(100px, 20vw, 200px);
+  height: clamp(100px, 20vw, 200px);
+}
+
+.mainTemp {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.temp {
+  font-size: clamp(3rem, 5vw, 4rem);
+  text-align: center;
+}
+
+.tempMax {
+  color: #ff0000;
+  font-size: clamp(1.2rem, 3vw, 1.5rem);
+  margin-right: 0.3rem;
+}
+
+
+.tempMin {
+  color: #006eff;
+  font-size: clamp(1.2rem, 3vw, 1.5rem);
+  margin-left: 0.3rem;
+}
+
+.subInfo {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1rem;
 }
