@@ -3,6 +3,8 @@
 日本語で入力された都市名を英語に翻訳し、OpenWeather APIから天気情報を取得・表示するアプリケーションです。  
 Next.js の App Router 構成をベースに、OpenAI API と外部APIを組み合わせた構成になっています。
 
+---
+
 ### 概要
 
 このアプリはポートフォリオ用途として以下の点を目的に開発されました。
@@ -11,6 +13,8 @@ Next.js の App Router 構成をベースに、OpenAI API と外部APIを組み�
 - OpenAI APIの実用的な活用例
 - App Router構成による Next.js のバックエンド統合の実践
 - シンプルかつ拡張しやすいUI設計（TypeScript + CSS Modules）
+
+---
 
 ### 使用技術
 
@@ -22,12 +26,16 @@ Next.js の App Router 構成をベースに、OpenAI API と外部APIを組み�
 | 外部API      | OpenAI API（Chat Completion） / OpenWeather API |
 | デプロイ     | Vercel                                  |
 
+---
+
 ### 主な機能
 
 - 都市名の日本語入力 → ChatGPTで英語に翻訳
 - OpenWeather APIでリアルタイム天気情報を取得
 - 入力エラー・通信エラーへの適切なハンドリング
 - スマートフォンにも対応したレスポンシブUI
+
+---
 
 ### 使い方
 
