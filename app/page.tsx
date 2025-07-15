@@ -110,7 +110,7 @@ export default function WeatherApp() {
               handleSearch();
             }
           }}
-          placeholder="都市名を入力してください"
+          placeholder="都市名を入力"
         />
         <button className={styles.button} onClick={handleSearch}>
           検索

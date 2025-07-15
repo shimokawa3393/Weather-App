@@ -20,7 +20,16 @@
   margin-bottom: 2rem;
 }
 
-/* ====== 入力欄とボタン（横並びにする） ====== */
+/* ====== 入力コンテナ（横並びレイアウト） ====== */
+.inputContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-bottom: 2rem;
+  flex-wrap: nowrap;
+}
+
+
 .input,
 .button {
   font-size: 1.2rem;
@@ -31,16 +40,19 @@
 
 /* ====== 入力欄デザイン ====== */
 .input {
+  flex: 1;
   padding: 0 1rem;
   border: 2px solid #cecece;
   outline: none;
-  width: 300px;
+  width: min(300px, 60vw);
+  min-width: 0;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 
 /* ====== ボタンデザイン ====== */
 .button {
+  flex-shrink: 0;
   background-color: #007bff;
   color: #fff;
   border: none;
