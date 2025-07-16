@@ -167,7 +167,7 @@ export default function WeatherApp() {
             </div>
             <div className={styles.subInfo}>
               <p>湿度：{weather.main.humidity}%</p>
-              <p>風：{Math.round(weather.wind.speed)} m/s</p>
+              <p>風：{Math.round(weather.wind.speed)}m/s</p>
               <p>降水量：{weather.rain ? Math.round(weather.rain["1h"]) : "ー"} mm</p>
             </div>
           </div>
