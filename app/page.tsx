@@ -200,12 +200,11 @@ export default function WeatherApp() {
                   <div key={index} className={styles.forecastItem}>
                     <span className={styles.forecastDate}>{day.date}</span>
                     <span
-                      className={`${styles.forecastDate} ${
-                        day.weekdayIndex === 0
+                      className={`${styles.forecastDate} ${day.weekdayIndex === 0
                           ? styles.sunday
                           : day.weekdayIndex === 6
-                          ? styles.saturday
-                          : ''
+                            ? styles.saturday
+                            : ''
                         }`}
                     >
                       {day.weekday}

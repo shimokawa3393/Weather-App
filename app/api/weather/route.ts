@@ -43,24 +43,23 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         }
       })
 
-      return NextResponse.json({
-        currentWeatherData: {
-          name: currentWeatherData.name,
-          date: "現在", // ここはフロント側で「現在の天気」として表示
-          weather: currentWeatherData.weather,
-          main: currentWeatherData.main,
-          wind: currentWeatherData.wind,
-          rain: currentWeatherData.rain,
-        },
-        forecastData: forecastList.map((item: any) => ({
-          date: item.date,
-          weekday: item.weekday,
-          weekdayIndex: item.weekdayIndex,
-          weather: item.weather,
-          main: item.main,
-        }))
-      })
-      
+    return NextResponse.json({
+      currentWeatherData: {
+        name: currentWeatherData.name,
+        date: "現在", // ここはフロント側で「現在の天気」として表示
+        weather: currentWeatherData.weather,
+        main: currentWeatherData.main,
+        wind: currentWeatherData.wind,
+        rain: currentWeatherData.rain,
+      },
+      forecastData: forecastList.map((item: any) => ({
+        date: item.date,
+        weekday: item.weekday,
+        weekdayIndex: item.weekdayIndex,
+        weather: item.weather,
+        main: item.main,
+      }))
+    })
 
   } catch (error) {
     console.error("天気取得エラー:", error)
