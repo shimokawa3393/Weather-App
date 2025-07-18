@@ -2,6 +2,33 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 
+
+// APIレスポンスの1件の型定義
+interface ForecastApiItem {
+  dt_txt: string;
+  weather: Array<{ icon: string; description: string }>;
+  main: {
+    temp: number;
+    temp_min: number;
+    temp_max: number;
+  };
+}
+
+// 加工後に返す用の型定義
+interface ForecastData {
+  date: string;
+  weekday: string;
+  weekdayIndex: number;
+  weather: Array<{ icon: string; description: string }>;
+  main: {
+    temp: number;
+    temp_min: number;
+    temp_max: number;
+  };
+}
+
+
+
 export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
     const { translatedCity }: { translatedCity: string } = await req.json()
@@ -26,9 +53,9 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     const currentWeatherData = await currentWeatherResponse.json()
     const forecastData = await forecastResponse.json()
 
-    const forecastList = forecastData.list
-      .filter((item: any) => item.dt_txt.includes('12:00:00'))
-      .map((item: any) => {
+    const forecastList: ForecastData[] = forecastData.list
+      .filter((item: ForecastApiItem) => item.dt_txt.includes('12:00:00'))
+      .map((item: ForecastApiItem) => {
         const dateObj = new Date(item.dt_txt)
         const day = dateObj.getDate()
         const weekdayIndex = dateObj.getDay()
