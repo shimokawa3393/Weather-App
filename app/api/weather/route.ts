@@ -62,7 +62,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         const weatherItem = items.find(i => i.dt_txt.includes('12:00:00')) ?? items[0]
 
         return {
-          date: `${day}日`,
+          date: day,
           weekday: `(${weekday})`,
           weekdayIndex,
           weather: weatherItem.weather,

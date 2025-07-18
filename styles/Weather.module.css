@@ -237,7 +237,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 1rem;
+  gap: clamp(0.4rem, 3vw, 0.8rem);
   padding-bottom: 0.8rem;
   margin-bottom: 0.8rem;
   border-bottom: 2px solid #ccc;
@@ -258,6 +258,11 @@
 
 .saturday {
   color: #006eff;
+}
+
+.forecastItem .weatherIcon {
+  width: clamp(60px, 20vw, 100px);
+  height: clamp(60px, 20vw, 100px);
 }
 
 .forecastContainer .tempMax {

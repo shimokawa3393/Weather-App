@@ -53,7 +53,7 @@ export interface ForecastApiItem {
 
 // 加工後に返す用の型定義
 export interface ForecastData {
-    date: string;
+    date: number;
     weekday: string;
     weekdayIndex: number;
     weather: ForecastApiItem['weather'];

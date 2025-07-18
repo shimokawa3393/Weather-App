@@ -135,9 +135,18 @@ export default function WeatherApp() {
                 </div>
               </div>
               <div className={styles.subInfo}>
-                <p>湿度 {weather.currentWeatherData.main.humidity}%</p>
-                <p>風 {Math.round(weather.currentWeatherData.wind.speed)}m/s</p>
-                <p>降水量 {weather.currentWeatherData.rain ? Math.round(weather.currentWeatherData.rain["1h"]) : "0"} mm</p>
+                <div className={styles.subInfoItem}>
+                  <p>湿度</p>
+                  <p>{weather.currentWeatherData.main.humidity}%</p>
+                </div>
+                <div className={styles.subInfoItem}>
+                  <p>風</p>
+                  <p>{Math.round(weather.currentWeatherData.wind.speed)}m/s</p>
+                </div>
+                <div className={styles.subInfoItem}>
+                  <p>降水量</p>
+                  <p>{weather.currentWeatherData.rain ? Math.round(weather.currentWeatherData.rain["1h"]) : "0"} mm</p>
+                </div>
               </div>
             </div>
             <div className={styles.forecastContainer}>
