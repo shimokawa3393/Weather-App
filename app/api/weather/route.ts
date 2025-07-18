@@ -79,7 +79,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         wind: currentWeatherData.wind,
         rain: currentWeatherData.rain,
       },
-      forecastData: forecastList.map((item: any) => ({
+      forecastData: forecastList.map((item: ForecastData) => ({
         date: item.date,
         weekday: item.weekday,
         weekdayIndex: item.weekdayIndex,
