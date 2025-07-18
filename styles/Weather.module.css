@@ -8,6 +8,7 @@
   align-items: center;
   padding: 3rem 1rem;
   font-family: "Noto Sans JP", sans-serif;
+  font-weight: bold;
   text-align: center;
   background-color: #ecfdff;
   color: #171717;
@@ -129,20 +130,29 @@
   margin-top: 0.5rem;
 }
 
+
 /* ====== 結果表示エリア ====== */
 .result {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.currentWeatherContainer, .forecastContainer {
   background-color: #ffffff;
   padding: 1.5rem;
   border-radius: 16px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
-  max-width: 80%;
   width: 100%;
   margin-top: 2rem;
   font-size: 1.1rem;
   color: #003366;
 }
 
-.result h2 {
+
+/* ====== 現在の天気 ====== */
+.currentWeatherContainer h2 {
   font-size: clamp(2rem, 5vw, 3.2rem);
   margin-bottom: 1rem;
 }
@@ -179,14 +189,13 @@
   text-align: center;
 }
 
-.tempMax {
+.mainTemp .tempMax {
   color: #ff0000;
   font-size: clamp(1.2rem, 3vw, 1.5rem);
   margin-right: 0.3rem;
 }
 
-
-.tempMin {
+.mainTemp .tempMin {
   color: #006eff;
   font-size: clamp(1.2rem, 3vw, 1.5rem);
   margin-left: 0.3rem;
@@ -197,4 +206,76 @@
   justify-content: center;
   gap: 2rem;
   margin-top: 1rem;
+}
+
+
+/* ====== 5日間予報 ====== */
+.forecastInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin-top: 1rem;
+  gap: 1rem;
+}
+
+.forecastContainer h3 {
+  font-size: clamp(1.0rem, 3vw, 1.2rem);
+  margin-bottom: 1rem;
+}
+
+.forecastItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 0.8rem;
+  margin-bottom: 0.8rem;
+  border-bottom: 2px solid #ccc;
+}
+
+.forecastItem:last-child {
+  border-bottom: none;
+}
+
+
+.forecastDate {
+  font-size: clamp(0.8rem, 3vw, 1.2rem);
+}
+
+.sunday {
+  color: #ff0000;
+}
+
+.saturday {
+  color: #006eff;
+}
+
+.forecastContainer .tempMax {
+  color: #ff0000;
+  font-size: clamp(0.8rem, 3vw, 1.2rem);
+  margin-right: 0.3rem;
+}
+
+.forecastContainer .tempMin {
+  color: #006eff;
+  font-size: clamp(0.8rem, 3vw, 1.2rem);
+  margin-left: 0.3rem;
+}
+
+
+/* ====== レスポンシブ対応 ====== */
+@media (max-width: 600px) {
+  .currentWeatherContainer, .forecastContainer {
+    width: 90%;
+  }
+}
+@media (min-width: 601px) and (max-width: 1200px) {
+  .currentWeatherContainer, .forecastContainer {
+    width: 70%;
+  }
+}
+@media (min-width: 1201px) {
+  .currentWeatherContainer, .forecastContainer {
+    width: 55%;
+  }
 }

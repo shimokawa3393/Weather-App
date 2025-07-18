@@ -4,8 +4,8 @@
 import React, { useState } from "react";
 import styles from '../styles/Weather.module.css';
 
-/* 天気データの型定義 */
-interface WeatherData {
+/* 現在の天気データの型定義 */
+interface CurrentWeatherData {
   name: string;
   main: {
     temp: number;
@@ -23,6 +23,27 @@ interface WeatherData {
   rain?: {
     "1h": number;
   };
+}
+
+/* 5日間予報データの型定義 */
+interface ForecastData {
+  date: string;
+  weekday: string;
+  weekdayIndex: number;
+  main: {
+    temp: number;
+    temp_min: number;
+    temp_max: number;
+  };
+  weather: Array<{
+    icon: string;
+  }>;
+}
+
+/* 天気データの型定義 */
+interface WeatherData {
+  currentWeatherData: CurrentWeatherData;
+  forecastData: ForecastData[];
 }
 
 /* 翻訳APIのレスポンスの型定義 */
@@ -145,30 +166,63 @@ export default function WeatherApp() {
       {/* 天気取得後の結果表示 */}
       {
         weather && (
-          <div className={styles.result}  >
-            <h2>{weather.name}</h2>
-            <div className={styles.mainInfo}>
-              <div className={styles.mainIcon}>
-                <img
-                  src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
-                  alt="天気アイコン"
-                  className={styles.weatherIcon}
-                />
-                <span className={styles.weatherDescription}>{weather.weather[0].description}</span>
-              </div>
-              <div className={styles.mainTemp}>
-                <span className={styles.temp}>{Math.round(weather.main.temp)}℃</span>
-                <div className={styles.tempUnit}>
-                  <span className={styles.tempMax}>{Math.round(weather.main.temp_max)}℃</span>
-                  <span>/</span>
-                  <span className={styles.tempMin}>{Math.round(weather.main.temp_min)}℃</span>
+          <div className={styles.result}>
+            <div className={styles.currentWeatherContainer}>
+              <h2>{weather.currentWeatherData.name}</h2>
+              <div className={styles.mainInfo}>
+                <div className={styles.mainIcon}>
+                  <img
+                    src={`https://openweathermap.org/img/wn/${weather.currentWeatherData.weather[0].icon}@2x.png`}
+                    alt="天気アイコン"
+                    className={styles.weatherIcon}
+                  />
+                  <span className={styles.weatherDescription}>{weather.currentWeatherData.weather[0].description}</span>
+                </div>
+                <div className={styles.mainTemp}>
+                  <span className={styles.temp}>{Math.round(weather.currentWeatherData.main.temp)}℃</span>
+                  <div className={styles.tempUnit}>
+                    <span className={styles.tempMax}>{Math.round(weather.currentWeatherData.main.temp_max)}℃</span>
+                    <span>/</span>
+                    <span className={styles.tempMin}>{Math.round(weather.currentWeatherData.main.temp_min)}℃</span>
+                  </div>
                 </div>
               </div>
+              <div className={styles.subInfo}>
+                <p>湿度 {weather.currentWeatherData.main.humidity}%</p>
+                <p>風 {Math.round(weather.currentWeatherData.wind.speed)}m/s</p>
+                <p>降水量 {weather.currentWeatherData.rain ? Math.round(weather.currentWeatherData.rain["1h"]) : "ー"} mm</p>
+              </div>
             </div>
-            <div className={styles.subInfo}>
-              <p>湿度：{weather.main.humidity}%</p>
-              <p>風：{Math.round(weather.wind.speed)}m/s</p>
-              <p>降水量：{weather.rain ? Math.round(weather.rain["1h"]) : "ー"} mm</p>
+            <div className={styles.forecastContainer}>
+              <h3>5日間予報</h3>
+              <div className={styles.forecastInfo}>
+                {weather.forecastData.map((day, index) => (
+                  <div key={index} className={styles.forecastItem}>
+                    <span className={styles.forecastDate}>{day.date}</span>
+                    <span
+                      className={`${styles.forecastDate} ${
+                        day.weekdayIndex === 0
+                          ? styles.sunday
+                          : day.weekdayIndex === 6
+                          ? styles.saturday
+                          : ''
+                        }`}
+                    >
+                      {day.weekday}
+                    </span>
+                    <img
+                      src={`https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`}
+                      alt="天気アイコン"
+                      className={styles.weatherIcon}
+                    />
+                    <div className={styles.tempUnit}>
+                      <span className={styles.tempMax}>{Math.round(day.main.temp_max)}℃</span>
+                      <span>/</span>
+                      <span className={styles.tempMin}>{Math.round(day.main.temp_min)}℃</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )
