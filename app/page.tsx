@@ -3,60 +3,7 @@
 
 import React, { useState } from "react";
 import styles from '../styles/Weather.module.css';
-
-/* 現在の天気データの型定義 */
-interface CurrentWeatherData {
-  name: string;
-  main: {
-    temp: number;
-    temp_min: number;
-    temp_max: number;
-    humidity: number;
-  };
-  wind: {
-    speed: number;
-  };
-  weather: Array<{
-    icon: string;
-    description: string;
-  }>;
-  rain?: {
-    "1h": number;
-  };
-}
-
-/* 5日間予報データの型定義 */
-interface ForecastData {
-  date: string;
-  weekday: string;
-  weekdayIndex: number;
-  main: {
-    temp: number;
-    temp_min: number;
-    temp_max: number;
-  };
-  weather: Array<{
-    icon: string;
-  }>;
-}
-
-/* 天気データの型定義 */
-interface WeatherData {
-  currentWeatherData: CurrentWeatherData;
-  forecastData: ForecastData[];
-}
-
-/* 翻訳APIのレスポンスの型定義 */
-interface TranslateResponse {
-  translatedCity: string;
-  error?: string;
-}
-
-/* 天気APIのレスポンスの型定義 */
-interface WeatherAPIResponse extends WeatherData {
-  error?: string;
-}
-
+import { WeatherData, TranslateResponse, WeatherAPIResponse } from './api/weather/types';
 
 /* メインコンポーネント */
 export default function WeatherApp() {
@@ -181,16 +128,16 @@ export default function WeatherApp() {
                 <div className={styles.mainTemp}>
                   <span className={styles.temp}>{Math.round(weather.currentWeatherData.main.temp)}℃</span>
                   <div className={styles.tempUnit}>
-                    <span className={styles.tempMax}>{Math.round(weather.currentWeatherData.main.temp_max)}℃</span>
+                    <span className={styles.tempMax}>{Math.round(weather.currentWeatherData.todayMax)}℃</span>
                     <span>/</span>
-                    <span className={styles.tempMin}>{Math.round(weather.currentWeatherData.main.temp_min)}℃</span>
+                    <span className={styles.tempMin}>{Math.round(weather.currentWeatherData.todayMin)}℃</span>
                   </div>
                 </div>
               </div>
               <div className={styles.subInfo}>
                 <p>湿度 {weather.currentWeatherData.main.humidity}%</p>
                 <p>風 {Math.round(weather.currentWeatherData.wind.speed)}m/s</p>
-                <p>降水量 {weather.currentWeatherData.rain ? Math.round(weather.currentWeatherData.rain["1h"]) : "ー"} mm</p>
+                <p>降水量 {weather.currentWeatherData.rain ? Math.round(weather.currentWeatherData.rain["1h"]) : "0"} mm</p>
               </div>
             </div>
             <div className={styles.forecastContainer}>
@@ -201,10 +148,10 @@ export default function WeatherApp() {
                     <span className={styles.forecastDate}>{day.date}</span>
                     <span
                       className={`${styles.forecastDate} ${day.weekdayIndex === 0
-                          ? styles.sunday
-                          : day.weekdayIndex === 6
-                            ? styles.saturday
-                            : ''
+                        ? styles.sunday
+                        : day.weekdayIndex === 6
+                          ? styles.saturday
+                          : ''
                         }`}
                     >
                       {day.weekday}
@@ -219,6 +166,7 @@ export default function WeatherApp() {
                       <span>/</span>
                       <span className={styles.tempMin}>{Math.round(day.main.temp_min)}℃</span>
                     </div>
+                    <span className={styles.pop}>{Math.round(day.pop * 10) * 10}%</span>
                   </div>
                 ))}
               </div>

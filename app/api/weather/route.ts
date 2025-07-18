@@ -1,33 +1,7 @@
 // app/api/weather/route.ts
 
 import { NextRequest, NextResponse } from 'next/server'
-
-
-// APIレスポンスの1件の型定義
-interface ForecastApiItem {
-  dt_txt: string;
-  weather: Array<{ icon: string; description: string }>;
-  main: {
-    temp: number;
-    temp_min: number;
-    temp_max: number;
-  };
-}
-
-// 加工後に返す用の型定義
-interface ForecastData {
-  date: string;
-  weekday: string;
-  weekdayIndex: number;
-  weather: Array<{ icon: string; description: string }>;
-  main: {
-    temp: number;
-    temp_min: number;
-    temp_max: number;
-  };
-}
-
-
+import { ForecastData, ForecastApiItem, WeatherAPIResponse } from './types'
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
@@ -53,29 +27,61 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     const currentWeatherData = await currentWeatherResponse.json()
     const forecastData = await forecastResponse.json()
 
-    const forecastList: ForecastData[] = forecastData.list
-      .filter((item: ForecastApiItem) => item.dt_txt.includes('12:00:00'))
-      .map((item: ForecastApiItem) => {
-        const dateObj = new Date(item.dt_txt)
+    // 今日の最高気温と最低気温を取得
+    const todayKey = new Date().toISOString().split('T')[0];
+    const todayItems = forecastData.list.filter((item: ForecastApiItem) => item.dt_txt.startsWith(todayKey));
+    const todayTemps = todayItems.map((i: ForecastApiItem) => i.main);
+    const todayMax = Math.max(...todayTemps.map((t: ForecastApiItem['main']) => t.temp_max));
+    const todayMin = Math.min(...todayTemps.map((t: ForecastApiItem['main']) => t.temp_min));
+
+    // 5日間予報データを日付でグルーピング
+    const dailyMap = new Map<string, ForecastApiItem[]>()
+    forecastData.list.forEach((item: ForecastApiItem) => {
+      const dateKey = item.dt_txt.split(' ')[0]
+      if (!dailyMap.has(dateKey)) {
+        dailyMap.set(dateKey, [])
+      }
+      dailyMap.get(dateKey)!.push(item)
+    })
+
+    // 5日間予報データを加工
+    const forecastList: ForecastData[] = Array.from(dailyMap.entries())
+      .filter(([dateKey]) => dateKey !== todayKey)
+      .map(([dateKey, items]) => {
+        const dateObj = new Date(dateKey)
+
         const day = dateObj.getDate()
         const weekdayIndex = dateObj.getDay()
         const weekday = dateObj.toLocaleDateString('ja-JP', { weekday: 'short' })
 
+        const temps = items.map(i => i.main)
+        const tempMax = Math.max(...temps.map(t => t.temp_max))
+        const tempMin = Math.min(...temps.map(t => t.temp_min))
+
+        // 12:00 の天気を優先、なければ最初のやつ
+        const weatherItem = items.find(i => i.dt_txt.includes('12:00:00')) ?? items[0]
+
         return {
           date: `${day}日`,
           weekday: `(${weekday})`,
-          weekdayIndex: weekdayIndex,
-          weather: item.weather,
-          main: item.main
+          weekdayIndex,
+          weather: weatherItem.weather,
+          main: {
+            temp_max: tempMax,
+            temp_min: tempMin,
+            temp: weatherItem.main.temp,
+          },
+          pop: weatherItem.pop,
         }
       })
 
     return NextResponse.json({
       currentWeatherData: {
         name: currentWeatherData.name,
-        date: "現在", // ここはフロント側で「現在の天気」として表示
         weather: currentWeatherData.weather,
         main: currentWeatherData.main,
+        todayMax: todayMax,
+        todayMin: todayMin,
         wind: currentWeatherData.wind,
         rain: currentWeatherData.rain,
       },
@@ -85,6 +91,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         weekdayIndex: item.weekdayIndex,
         weather: item.weather,
         main: item.main,
+        pop: item.pop,
       }))
     })
 
