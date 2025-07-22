@@ -127,7 +127,7 @@
 
 .cloud {
   width: 300px;
-  margin-top: 0.5rem;
+  margin-top: -1rem;
 }
 
 
@@ -165,6 +165,8 @@
   width: 100%;
   margin-bottom: 2rem;
   gap: 1rem;
+  overflow-x: auto;
+  white-space: nowrap;
 }
 
 .mainIcon,
@@ -180,9 +182,17 @@
   margin-right: 0.5rem;
 }
 
-.weatherIcon {
+.mainWeatherIcon {
+  min-width: 100px;
+  min-height: 100px;
   width: clamp(100px, 20vw, 200px);
   height: clamp(100px, 20vw, 200px);
+  flex-shrink: 0;
+}
+
+
+.weatherDescription {
+  font-size: clamp(1rem, 3vw, 1.5rem);
 }
 
 .mainTemp {
@@ -195,7 +205,7 @@
 }
 
 .temp {
-  font-size: clamp(3rem, 5vw, 4rem);
+  font-size: clamp(2.8rem, 4vw, 4rem);
   text-align: center;
 }
 
@@ -216,6 +226,19 @@
   justify-content: center;
   gap: 2rem;
   margin-top: 1rem;
+  overflow-x: auto;
+}
+
+.subInfoItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: clamp(1rem, 3vw, 1.5rem);
+  margin-left: clamp(0.1rem, 2vw, 1.5rem);
+  margin-right: clamp(0.1rem, 2vw, 1.5rem);
+  margin-bottom: 0.5rem;
+  white-space: nowrap;
 }
 
 
@@ -241,6 +264,7 @@
   padding-bottom: 0.8rem;
   margin-bottom: 0.8rem;
   border-bottom: 2px solid #ccc;
+  overflow-x: auto;
 }
 
 .forecastItem:last-child {
@@ -260,7 +284,7 @@
   color: #006eff;
 }
 
-.forecastItem .weatherIcon {
+.forecastWeatherIcon {
   width: clamp(60px, 20vw, 100px);
   height: clamp(60px, 20vw, 100px);
 }

@@ -121,7 +121,7 @@ export default function WeatherApp() {
                   <img
                     src={`https://openweathermap.org/img/wn/${weather.currentWeatherData.weather[0].icon}@2x.png`}
                     alt="天気アイコン"
-                    className={styles.weatherIcon}
+                    className={styles.mainWeatherIcon}
                   />
                   <span className={styles.weatherDescription}>{weather.currentWeatherData.weather[0].description}</span>
                 </div>
@@ -136,16 +136,18 @@ export default function WeatherApp() {
               </div>
               <div className={styles.subInfo}>
                 <div className={styles.subInfoItem}>
-                  <p>湿度</p>
-                  <p>{weather.currentWeatherData.main.humidity}%</p>
+                  <span className={styles.subInfoLabel}>湿度</span>
+                  <span className={styles.subInfoValue}>{weather.currentWeatherData.main.humidity}%</span>
                 </div>
                 <div className={styles.subInfoItem}>
-                  <p>風</p>
-                  <p>{Math.round(weather.currentWeatherData.wind.speed)}m/s</p>
+                  <span className={styles.subInfoLabel}>風</span>
+                  <span className={styles.subInfoValue}>{Math.round(weather.currentWeatherData.wind.speed)}m/s</span>
                 </div>
                 <div className={styles.subInfoItem}>
-                  <p>降水量</p>
-                  <p>{weather.currentWeatherData.rain ? Math.round(weather.currentWeatherData.rain["1h"]) : "0"} mm</p>
+                  <span className={styles.subInfoLabel}>降水量</span>
+                  <span className={styles.subInfoValue}>
+                    {weather.currentWeatherData.rain ? Math.round(weather.currentWeatherData.rain["1h"]) : "0"} mm
+                  </span>
                 </div>
               </div>
             </div>
@@ -168,7 +170,7 @@ export default function WeatherApp() {
                     <img
                       src={`https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`}
                       alt="天気アイコン"
-                      className={styles.weatherIcon}
+                      className={styles.forecastWeatherIcon}
                     />
                     <div className={styles.tempUnit}>
                       <span className={styles.tempMax}>{Math.round(day.main.temp_max)}℃</span>
